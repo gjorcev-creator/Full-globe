@@ -1,0 +1,25 @@
+{
+  "name": "geolens-globe-ios",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "build:ios": "vite build",
+    "sync:ios": "npm run build:ios && npx cap sync ios",
+    "open:ios": "npx cap open ios"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-globe.gl": "^2.32.2",
+    "@capacitor/core": "^7.4.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.7",
+    "@capacitor/cli": "^7.4.2"
+  }
+}
