@@ -49,16 +49,6 @@ function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
               ))}
             </ul>
           </div>
-
-          <div className="section">
-            <h3>Потсетник</h3>
-            <p>{countryData?.reminder || "-"}</p>
-          </div>
-
-          <div className="section">
-            <h3>Talking Points</h3>
-            <p>{countryData?.talkingPoints || "-"}</p>
-          </div>
         </>
       )}
     </div>
@@ -70,8 +60,9 @@ export default function GlobeView() {
 
   const [countries, setCountries] = useState([]);
   const [hoverD, setHoverD] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedCountryFeature, setSelectedCountryFeature] = useState(null);
+
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [countryData, setCountryData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -85,8 +76,7 @@ export default function GlobeView() {
 
   useEffect(() => {
     if (!globeRef.current) return;
-    const controls = globeRef.current.controls();
-    controls.autoRotate = false;
+    globeRef.current.controls().autoRotate = false;
   }, []);
 
   function normalize(name) {
@@ -130,23 +120,32 @@ export default function GlobeView() {
         width={window.innerWidth}
         height={window.innerHeight}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+
         polygonsData={countries}
-        polygonStrokeColor={() => "rgba(0,0,0,0)"}
+
+        /* ✅ ГРАНИЦИ */
+        polygonStrokeColor={() => "rgba(255,255,255,0.25)"}
+
+        /* 🎯 COLOR LOGIC */
         polygonCapColor={(d) => {
           if (d === selectedCountryFeature) return "rgba(0,0,0,0)";
-          if (d === hoverD) return "rgba(120,160,255,0.35)";
-          return "rgba(80,140,255,0.10)";
+          if (d === hoverD) return "rgba(120, 0, 30, 0.35)"; // бордо hover
+          return "rgba(80,140,255,0.08)";
         }}
+
+        /* 🎯 BORDEAU OUTLINE WHEN SELECTED */
         polygonSideColor={(d) =>
           d === selectedCountryFeature
             ? "rgba(120, 0, 30, 0.95)"
             : "rgba(0,0,0,0)"
         }
+
         polygonAltitude={(d) => {
-          if (d === selectedCountryFeature) return 0.028;
-          if (d === hoverD) return 0.018;
+          if (d === selectedCountryFeature) return 0.03;
+          if (d === hoverD) return 0.02;
           return 0.004;
         }}
+
         onPolygonHover={(d) => setHoverD(d || null)}
         onPolygonClick={handleClick}
       />
