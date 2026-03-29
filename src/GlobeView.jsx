@@ -49,6 +49,16 @@ function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
               ))}
             </ul>
           </div>
+
+          <div className="section">
+            <h3>Потсетник</h3>
+            <p>{countryData?.reminder || "Reserved for manual input."}</p>
+          </div>
+
+          <div className="section">
+            <h3>Talking Points</h3>
+            <p>{countryData?.talkingPoints || "Reserved for manual input."}</p>
+          </div>
         </>
       )}
     </div>
@@ -101,7 +111,15 @@ export default function GlobeView() {
       const json = await res.json();
       setCountryData(json);
     } catch {
-      setCountryData({});
+      setCountryData({
+        general: "No data available.",
+        eu: "No EU data.",
+        usa: "No USA data.",
+        mk: "No MK data.",
+        news: [],
+        reminder: "Reserved for manual input.",
+        talkingPoints: "Reserved for manual input."
+      });
     } finally {
       setLoading(false);
     }
@@ -121,31 +139,23 @@ export default function GlobeView() {
         height={window.innerHeight}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
         polygonsData={countries}
-
-        /* 🔥 ПОЈАКИ ГРАНИЦИ */
         polygonStrokeColor={() => "rgba(255,255,255,0.75)"}
         polygonStrokeWidth={0.6}
-
-        /* 🎯 COLOR LOGIC */
         polygonCapColor={(d) => {
           if (d === selectedCountryFeature) return "rgba(0,0,0,0)";
           if (d === hoverD) return "rgba(120, 0, 30, 0.35)";
           return "rgba(80,140,255,0.08)";
         }}
-
-        /* 🎯 SELECTED */
         polygonSideColor={(d) =>
           d === selectedCountryFeature
             ? "rgba(120, 0, 30, 1)"
             : "rgba(0,0,0,0)"
         }
-
         polygonAltitude={(d) => {
           if (d === selectedCountryFeature) return 0.035;
           if (d === hoverD) return 0.02;
           return 0.004;
         }}
-
         onPolygonHover={(d) => setHoverD(d || null)}
         onPolygonClick={handleClick}
       />
