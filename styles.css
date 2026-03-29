@@ -1,162 +1,73 @@
 html, body, #root {
   margin: 0;
-  padding: 0;
-  width: 100%;
   height: 100%;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: #050b18;
+  font-family: -apple-system, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-.app {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  background: radial-gradient(circle at center, #0b1f44 0%, #050b18 60%, #02060f 100%);
-}
-
-.globe-wrap {
-  width: 100vw;
-  height: 100vh;
-}
-
-.panel {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: min(900px, calc(100vw - 16px)); /* ⬅️ значително поголем */
-  max-height: calc(100vh - 16px);
-  overflow-y: auto;
-  background: rgba(10, 16, 28, 0.94);
-  color: #eef4ff;
-  border: 1px solid rgba(140, 170, 255, 0.24);
-  border-radius: 22px;
-  padding: 32px 28px 40px 28px; /* ⬅️ повеќе простор */
-  backdrop-filter: blur(16px);
-  z-index: 20;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.5);
-}
-
-.panel-title-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.panel-kicker {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #9fc2ff;
-  font-weight: 800;
-}
-
-.panel-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.panel h2 {
-  margin: 0;
-  font-size: 38px; /* ⬅️ поголем наслов */
-  line-height: 1.05;
-  font-weight: 800;
-  color: #ffffff;
-}
-
-.close-btn {
-  border: none;
-  background: rgba(255, 255, 255, 0.12);
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #0a1228, #02060f);
   color: white;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  font-size: 18px;
-  font-weight: 700;
-  flex: 0 0 auto;
+  overflow-y: auto;
+  padding: 30px 20px;
 }
 
-.loading-text {
+.fs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fs-kicker {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #8db7ff;
+}
+
+.fs-header h1 {
   margin: 0;
-  font-size: 22px;
-  line-height: 1.6;
+  font-size: 40px;
 }
 
-.section {
-  margin-top: 22px;
-}
-
-.section h3 {
-  margin: 0 0 10px 0;
-  font-size: 14px;
-  color: #9fc2ff;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 800;
-}
-
-.section p {
-  margin: 0;
-  line-height: 1.8;
-  font-size: 22px; /* ⬅️ поголем текст */
-  color: #eef4ff;
-}
-
-.news-list {
-  margin: 0;
-  padding-left: 24px;
-}
-
-.news-list li {
-  margin-bottom: 14px;
-  font-size: 19px;
-  line-height: 1.6;
-  color: #eef4ff;
-}
-
-.panel::-webkit-scrollbar {
-  width: 8px;
-}
-
-.panel::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.20);
+.fs-close {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  padding: 10px 16px;
   border-radius: 10px;
 }
 
-@media (max-width: 700px) {
-  .panel {
-    top: 10px;
-    right: 10px;
-    left: 10px;
-    width: auto;
-    max-height: calc(100vh - 20px);
-    padding: 24px 20px 28px 20px;
-    border-radius: 18px;
-  }
+.fs-loading {
+  margin-top: 40px;
+  font-size: 22px;
+}
 
-  .panel h2 {
-    font-size: 30px;
-  }
+.fs-content {
+  margin-top: 30px;
+}
 
-  .section p {
-    font-size: 18px;
-    line-height: 1.68;
-  }
+.fs-section {
+  margin-bottom: 30px;
+}
 
-  .news-list li,
-  .loading-text {
-    font-size: 18px;
-  }
+.fs-section h3 {
+  color: #8db7ff;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
 
-  .close-btn {
-    width: 44px;
-    height: 44px;
-  }
+.fs-section p {
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+.fs-section ul {
+  padding-left: 20px;
+}
+
+.fs-section li {
+  margin-bottom: 10px;
+  font-size: 18px;
 }
