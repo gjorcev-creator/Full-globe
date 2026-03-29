@@ -43,9 +43,22 @@ function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
 
           <div className="section">
             <h3>News</h3>
-            <ul>
+            <ul className="news-list">
               {(countryData?.news || []).map((n, i) => (
-                <li key={i}>{n.title}</li>
+                <li key={i} className="news-item">
+                  <div className="news-title">{n.title}</div>
+                  {n.source ? <div className="news-source">{n.source}</div> : null}
+                  {n.link ? (
+                    <a
+                      className="news-link"
+                      href={n.link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open article
+                    </a>
+                  ) : null}
+                </li>
               ))}
             </ul>
           </div>
