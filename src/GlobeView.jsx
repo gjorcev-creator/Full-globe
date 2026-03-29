@@ -1,53 +1,78 @@
 import { useEffect, useRef, useState } from "react";
 import Globe from "react-globe.gl";
 
-function CountryFullScreen({ country, data, loading, onClose }) {
-  if (!country) return null;
+function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
+  if (!selectedCountry) return null;
 
   return (
-    <div className="fullscreen">
-      <div className="fs-header">
-        <div>
-          <div className="fs-kicker">Geopolitical Brief</div>
-          <h1>{country}</h1>
+    <div className="panel">
+      <div className="panel-header">
+        <div className="panel-title-wrap">
+          <div className="panel-kicker">Country profile</div>
+          <h2>{selectedCountry}</h2>
         </div>
 
-        <button className="fs-close" onClick={onClose}>
-          ← Back
+        <button className="close-btn" onClick={onClose}>
+          X
         </button>
       </div>
 
       {loading ? (
-        <p className="fs-loading">Loading analysis...</p>
+        <p className="loading-text">Loading country brief...</p>
       ) : (
-        <div className="fs-content">
-          <Section title="General Overview" text={data?.general} />
-          <Section title="EU Relations" text={data?.eu} />
-          <Section title="USA Relations" text={data?.usa} />
-          <Section title="Macedonia Relations" text={data?.mk} />
+        <>
+          <div className="section">
+            <h3>General Overview</h3>
+            <p>
+              {countryData?.general ||
+                "No general overview is available yet for this country."}
+            </p>
+          </div>
 
-          <div className="fs-section">
+          <div className="section">
+            <h3>Relations with the European Union</h3>
+            <p>
+              {countryData?.eu ||
+                "No structured EU assessment is available yet."}
+            </p>
+          </div>
+
+          <div className="section">
+            <h3>Relations with the United States</h3>
+            <p>
+              {countryData?.usa ||
+                "No structured U.S. assessment is available yet."}
+            </p>
+          </div>
+
+          <div className="section">
+            <h3>Relations with Macedonia</h3>
+            <p>
+              {countryData?.mk ||
+                "No structured Macedonia assessment is available yet."}
+            </p>
+          </div>
+
+          <div className="section">
             <h3>Top Headlines</h3>
-            <ul>
-              {(data?.news || []).map((n, i) => (
-                <li key={i}>{n.title}</li>
+            <ul className="news-list">
+              {(countryData?.news || []).map((item, idx) => (
+                <li key={idx}>{item.title}</li>
               ))}
             </ul>
           </div>
 
-          <Section title="Потсетник" text={data?.reminder} />
-          <Section title="Talking Points" text={data?.talkingPoints} />
-        </div>
-      )}
-    </div>
-  );
-}
+          <div className="section">
+            <h3>Потсетник</h3>
+            <p>{countryData?.reminder || "Reserved for manual input."}</p>
+          </div>
 
-function Section({ title, text }) {
-  return (
-    <div className="fs-section">
-      <h3>{title}</h3>
-      <p>{text || "No data available yet."}</p>
+          <div className="section">
+            <h3>Talking Points</h3>
+            <p>{countryData?.talkingPoints || "Reserved for manual input."}</p>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -55,52 +80,98 @@ function Section({ title, text }) {
 export default function GlobeView() {
   const globeRef = useRef(null);
 
+  const [size, setSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
   const [countries, setCountries] = useState([]);
   const [hoverD, setHoverD] = useState(null);
-
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [data, setData] = useState(null);
+  const [countryData, setCountryData] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const API_BASE = "https://globe-api-42cp.onrender.com";
 
   useEffect(() => {
+    function onResize() {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
+
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
     fetch("/countries.geojson")
       .then((res) => res.json())
-      .then((d) => setCountries(d.features || []));
+      .then((data) => {
+        setCountries(data.features || []);
+      })
+      .catch((err) => {
+        console.error("GeoJSON load error:", err);
+      });
   }, []);
 
   useEffect(() => {
     if (!globeRef.current) return;
-    const c = globeRef.current.controls();
-    c.autoRotate = false;
-  }, []);
 
-  function normalize(name) {
+    const controls = globeRef.current.controls();
+    controls.autoRotate = false;
+    controls.enablePan = false;
+
+    globeRef.current.pointOfView({ lat: 20, lng: 15, altitude: 2.2 }, 0);
+  }, [countries]);
+
+  function normalizeCountryName(name) {
     const map = {
       Macedonia: "Macedonia",
-      "North Macedonia": "Macedonia"
+      "North Macedonia": "Macedonia",
+      "Republic of Macedonia": "Macedonia",
+      "Russian Federation": "Russia",
+      "United States of America": "United States",
+      "Syrian Arab Republic": "Syria"
     };
+
     return map[name] || name;
   }
 
-  function getName(f) {
-    return normalize(f?.properties?.name || "Unknown");
+  function getCountryName(feature) {
+    const rawName =
+      feature && feature.properties ? feature.properties.name : "Unknown";
+    return normalizeCountryName(rawName);
   }
 
-  async function handleClick(f) {
-    const name = getName(f);
+  async function handleCountryClick(feature) {
+    const countryName = getCountryName(feature);
 
-    setSelectedCountry(name);
+    setSelectedCountry(countryName);
     setLoading(true);
-    setData(null);
+    setCountryData(null);
 
     try {
-      const res = await fetch(API_BASE + "/country/" + encodeURIComponent(name));
+      const res = await fetch(
+        API_BASE + "/country/" + encodeURIComponent(countryName)
+      );
       const json = await res.json();
-      setData(json);
-    } catch {
-      setData({});
+      setCountryData(json);
+    } catch (err) {
+      console.error("API fetch error:", err);
+      setCountryData({
+        general: "No data available for " + countryName + ".",
+        eu: "No structured EU assessment yet for " + countryName + ".",
+        usa: "No structured USA assessment yet for " + countryName + ".",
+        mk: "No structured Macedonia assessment yet for " + countryName + ".",
+        news: [
+          { title: "Top headlines for " + countryName + " will appear here" },
+          { title: "Diplomatic update feed placeholder" },
+          { title: "Economic developments placeholder" }
+        ],
+        reminder: "Reserved for manual input.",
+        talkingPoints: "Reserved for manual input."
+      });
     } finally {
       setLoading(false);
     }
@@ -108,29 +179,42 @@ export default function GlobeView() {
 
   return (
     <>
-      {!selectedCountry && (
+      <div className="globe-wrap">
         <Globe
           ref={globeRef}
-          width={window.innerWidth}
-          height={window.innerHeight}
+          width={size.width}
+          height={size.height}
+          backgroundColor="rgba(0,0,0,0)"
           globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+          bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+          atmosphereColor="#4f8cff"
+          atmosphereAltitude={0.22}
           polygonsData={countries}
           polygonCapColor={(d) =>
-            d === hoverD
-              ? "rgba(110,168,255,0.65)"
-              : "rgba(80,140,255,0.18)"
+            d === hoverD ? "rgba(110,168,255,0.65)" : "rgba(80,140,255,0.18)"
           }
-          polygonStrokeColor={() => "#fff"}
-          onPolygonHover={(d) => setHoverD(d || null)}
-          onPolygonClick={handleClick}
+          polygonSideColor={() => "rgba(0,60,140,0.15)"}
+          polygonStrokeColor={() => "rgba(220,235,255,0.95)"}
+          polygonAltitude={(d) => (d === hoverD ? 0.03 : 0.01)}
+          polygonsTransitionDuration={200}
+          polygonLabel={(d) =>
+            '<div style="padding:8px 10px;color:white;background:rgba(10,20,40,0.92);border-radius:8px;font-size:13px;">' +
+            ((d && d.properties && d.properties.name) ? d.properties.name : "Unknown") +
+            "</div>"
+          }
+          onPolygonHover={(polygon) => setHoverD(polygon || null)}
+          onPolygonClick={(polygon) => handleCountryClick(polygon)}
         />
-      )}
+      </div>
 
-      <CountryFullScreen
-        country={selectedCountry}
-        data={data}
+      <CountryDrawer
+        selectedCountry={selectedCountry}
+        countryData={countryData}
         loading={loading}
-        onClose={() => setSelectedCountry(null)}
+        onClose={() => {
+          setSelectedCountry(null);
+          setCountryData(null);
+        }}
       />
     </>
   );
