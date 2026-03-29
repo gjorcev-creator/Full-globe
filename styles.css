@@ -38,3 +38,72 @@ html, body, #root {
   backdrop-filter: blur(10px);
   z-index: 10;
 }
+.panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 340px;
+  max-width: 88vw;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: rgba(8, 16, 32, 0.92);
+  color: #eaf2ff;
+  border: 1px solid rgba(120, 160, 255, 0.3);
+  border-radius: 16px;
+  padding: 16px;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.section {
+  margin-top: 14px;
+}
+
+.section h3 {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  color: #8db7ff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.section p {
+  margin: 0;
+  line-height: 1.45;
+  color: #eaf2ff;
+}
+
+.news-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.news-list li {
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.close-btn {
+  border: 0;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  font-size: 16px;
+}
