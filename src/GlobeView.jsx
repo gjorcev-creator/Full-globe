@@ -64,6 +64,43 @@ function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
           </div>
 
           <div className="section">
+            <h3>Official Sources</h3>
+            <ul className="official-list">
+              {(countryData?.officialSources || []).map((item, i) => (
+                <li key={i} className="official-item">
+                  <div className="official-title">{item.title}</div>
+                  {item.source ? (
+                    <div className="official-source">{item.source}</div>
+                  ) : null}
+                  {item.relevance ? (
+                    <div className="official-relevance">{item.relevance}</div>
+                  ) : null}
+                  {item.url ? (
+                    <a
+                      className="official-link"
+                      href={item.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open source
+                    </a>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="section">
+            <h3>Media Analysis</h3>
+            <p>{countryData?.mediaAnalysis || "No media analysis available."}</p>
+          </div>
+
+          <div className="section">
+            <h3>Confidence Note</h3>
+            <p>{countryData?.confidenceNote || "No confidence note available."}</p>
+          </div>
+
+          <div className="section">
             <h3>Потсетник</h3>
             <p>{countryData?.reminder || "Reserved for manual input."}</p>
           </div>
@@ -104,6 +141,8 @@ export default function GlobeView() {
 
   function normalize(name) {
     if (name === "North Macedonia") return "Macedonia";
+    if (name === "United States of America") return "United States";
+    if (name === "Czechia") return "Czech Republic";
     return name;
   }
 
@@ -130,6 +169,9 @@ export default function GlobeView() {
         usa: "No USA data.",
         mk: "No MK data.",
         news: [],
+        officialSources: [],
+        mediaAnalysis: "No media analysis available.",
+        confidenceNote: "No confidence note available.",
         reminder: "Reserved for manual input.",
         talkingPoints: "Reserved for manual input."
       });
