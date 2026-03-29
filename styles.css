@@ -1,162 +1,78 @@
 html, body, #root {
   margin: 0;
-  padding: 0;
-  width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: #050b18;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.app {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  background: radial-gradient(circle at center, #0b1f44 0%, #050b18 60%, #02060f 100%);
-}
-
-.globe-wrap {
-  width: 100vw;
-  height: 100vh;
+  font-family: -apple-system, sans-serif;
 }
 
 .panel {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: min(900px, calc(100vw - 16px));
-  max-height: calc(100vh - 16px);
-  overflow-y: auto;
-  background: rgba(10, 16, 28, 0.94);
-  color: #eef4ff;
-  border: 1px solid rgba(140, 170, 255, 0.24);
-  border-radius: 22px;
-  padding: 32px 28px 40px 28px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vw; /* ⬅️ половина екран */
+  height: 100vh;
+
+  background: rgba(10, 16, 30, 0.96);
   backdrop-filter: blur(16px);
-  z-index: 20;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.5);
-}
 
-.panel-title-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+  color: white;
+  padding: 30px;
 
-.panel-kicker {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #9fc2ff;
-  font-weight: 800;
+  overflow-y: auto;
+  z-index: 9999;
+
+  box-shadow: -20px 0 60px rgba(0,0,0,0.5);
 }
 
 .panel-header {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
+  align-items: center;
 }
 
 .panel h2 {
   margin: 0;
-  font-size: 38px;
-  line-height: 1.05;
-  font-weight: 800;
-  color: #ffffff;
+  font-size: 36px;
+}
+
+.panel-kicker {
+  font-size: 12px;
+  color: #8db7ff;
 }
 
 .close-btn {
+  background: rgba(255,255,255,0.1);
   border: none;
-  background: rgba(255, 255, 255, 0.12);
   color: white;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  font-size: 18px;
-  font-weight: 700;
-  flex: 0 0 auto;
-}
-
-.loading-text {
-  margin: 0;
-  font-size: 22px;
-  line-height: 1.6;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .section {
-  margin-top: 22px;
+  margin-top: 20px;
 }
 
 .section h3 {
-  margin: 0 0 10px 0;
   font-size: 14px;
-  color: #9fc2ff;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 800;
+  color: #8db7ff;
 }
 
 .section p {
-  margin: 0;
-  line-height: 1.8;
-  font-size: 22px;
-  color: #eef4ff;
-}
-
-.news-list {
-  margin: 0;
-  padding-left: 24px;
-}
-
-.news-list li {
-  margin-bottom: 14px;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.6;
-  color: #eef4ff;
 }
 
-.panel::-webkit-scrollbar {
-  width: 8px;
+.section li {
+  margin-bottom: 8px;
 }
 
-.panel::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.20);
-  border-radius: 10px;
+.loading-text {
+  margin-top: 20px;
 }
 
 @media (max-width: 700px) {
   .panel {
-    top: 10px;
-    right: 10px;
-    left: 10px;
-    width: auto;
-    max-height: calc(100vh - 20px);
-    padding: 24px 20px 28px 20px;
-    border-radius: 18px;
-  }
-
-  .panel h2 {
-    font-size: 32px;
-  }
-
-  .section p {
-    font-size: 19px;
-    line-height: 1.72;
-  }
-
-  .news-list li,
-  .loading-text {
-    font-size: 18px;
-  }
-
-  .close-btn {
-    width: 44px;
-    height: 44px;
+    width: 100vw;
   }
 }
