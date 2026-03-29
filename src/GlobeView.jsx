@@ -28,7 +28,7 @@ function CountrySheet({ selectedCountry, countryData, loading, onClose }) {
               <h3>General Overview</h3>
               <p>
                 {countryData?.general ||
-                  "No general overview is available yet for this country. This section will contain a concise geopolitical and strategic summary, including the country’s regional role, institutional alignment, and major political dynamics."}
+                  "No general overview is available yet for this country."}
               </p>
             </div>
 
@@ -36,7 +36,7 @@ function CountrySheet({ selectedCountry, countryData, loading, onClose }) {
               <h3>Relations with the European Union</h3>
               <p>
                 {countryData?.eu ||
-                  "No structured EU assessment is available yet. This section will summarize the country’s political relationship with the European Union, status in accession or partnership frameworks, trade and regulatory alignment, and current diplomatic sensitivities."}
+                  "No structured EU assessment is available yet."}
               </p>
             </div>
 
@@ -44,7 +44,7 @@ function CountrySheet({ selectedCountry, countryData, loading, onClose }) {
               <h3>Relations with the United States</h3>
               <p>
                 {countryData?.usa ||
-                  "No structured U.S. assessment is available yet. This section will summarize the bilateral strategic relationship, defense and security cooperation, diplomatic positioning, and recent shifts in the policy relationship with Washington."}
+                  "No structured U.S. assessment is available yet."}
               </p>
             </div>
 
@@ -52,7 +52,7 @@ function CountrySheet({ selectedCountry, countryData, loading, onClose }) {
               <h3>Relations with Macedonia</h3>
               <p>
                 {countryData?.mk ||
-                  "No structured Macedonia assessment is available yet. This section will summarize bilateral relations, political dialogue, regional cooperation, economic ties, and any active diplomatic issues relevant to Skopje."}
+                  "No structured Macedonia assessment is available yet."}
               </p>
             </div>
 
@@ -60,36 +60,19 @@ function CountrySheet({ selectedCountry, countryData, loading, onClose }) {
               <h3>Top Headlines</h3>
               <ul className="news-list">
                 {(countryData?.news || []).map((item, idx) => (
-                  <li key={idx}>
-                    <strong>{item.title}</strong>
-                    {item.source ? <div className="news-source">{item.source}</div> : null}
-                  </li>
+                  <li key={idx}>{item.title}</li>
                 ))}
               </ul>
             </div>
 
             <div className="section">
-              <h3>Media Analysis</h3>
-              <p>
-                {countryData?.mediaAnalysis ||
-                  "A short AI-generated media analysis will appear here, based on the latest major domestic headlines translated into English and summarized into a concise operational brief."}
-              </p>
-            </div>
-
-            <div className="section">
               <h3>Потсетник</h3>
-              <p>
-                {countryData?.reminder ||
-                  "Овој дел е резервиран за рачно внесен дипломатски потсетник од трета страна."}
-              </p>
+              <p>{countryData?.reminder || "Reserved for manual input."}</p>
             </div>
 
             <div className="section">
               <h3>Talking Points</h3>
-              <p>
-                {countryData?.talkingPoints ||
-                  "This section is reserved for manually maintained talking points pushed from a third-party editorial/admin workflow."}
-              </p>
+              <p>{countryData?.talkingPoints || "Reserved for manual input."}</p>
             </div>
           </>
         )}
@@ -160,7 +143,7 @@ export default function GlobeView() {
   }
 
   function getCountryName(feature) {
-    const rawName = feature?.properties?.name || "Unknown";
+    const rawName = feature && feature.properties ? feature.properties.name : "Unknown";
     return normalizeCountryName(rawName);
   }
 
@@ -180,26 +163,17 @@ export default function GlobeView() {
     } catch (err) {
       console.error("API fetch error:", err);
       setCountryData({
-        general:
-          countryName +
-          " is displayed in the globe platform. A fuller strategic country brief will be shown here in the next iteration, including political context, regional significance, and current diplomatic posture.",
-        eu:
-          "No structured EU assessment yet for " + countryName + ".",
-        usa:
-          "No structured USA assessment yet for " + countryName + ".",
-        mk:
-          "No structured Macedonia assessment yet for " + countryName + ".",
+        general: "No data available for " + countryName + ".",
+        eu: "No structured EU assessment yet for " + countryName + ".",
+        usa: "No structured USA assessment yet for " + countryName + ".",
+        mk: "No structured Macedonia assessment yet for " + countryName + ".",
         news: [
-          { title: "Top headlines for " + countryName + " will appear here", source: "Pending" },
-          { title: "Diplomatic update feed placeholder", source: "Pending" },
-          { title: "Economic developments placeholder", source: "Pending" }
+          { title: "Top headlines for " + countryName + " will appear here" },
+          { title: "Diplomatic update feed placeholder" },
+          { title: "Economic developments placeholder" }
         ],
-        mediaAnalysis:
-          "A five-sentence synthesized media analysis will appear here after live source ingestion and AI processing are connected.",
-        reminder:
-          "Reserved for third-party input.",
-        talkingPoints:
-          "Reserved for third-party input."
+        reminder: "Reserved for manual input.",
+        talkingPoints: "Reserved for manual input."
       });
     } finally {
       setLoading(false);
@@ -227,9 +201,9 @@ export default function GlobeView() {
           polygonAltitude={(d) => (d === hoverD ? 0.03 : 0.01)}
           polygonsTransitionDuration={200}
           polygonLabel={(d) =>
-            `<div style="padding:8px 10px;color:white;background:rgba(10,20,40,0.92);border-radius:8px;font-size:13px;">${
-              d?.properties?.name || "Unknown"
-            }</div>`
+            '<div style="padding:8px 10px;color:white;background:rgba(10,20,40,0.92);border-radius:8px;font-size:13px;">' +
+            ((d && d.properties && d.properties.name) ? d.properties.name : "Unknown") +
+            "</div>"
           }
           onPolygonHover={(polygon) => setHoverD(polygon || null)}
           onPolygonClick={(polygon) => handleCountryClick(polygon)}
