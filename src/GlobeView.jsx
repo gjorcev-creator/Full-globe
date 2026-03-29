@@ -14,7 +14,7 @@ function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+        <p className="loading-text">Loading...</p>
       ) : (
         <>
           <div className="section">
@@ -93,15 +93,27 @@ export default function GlobeView() {
     if (!globeRef.current) return;
 
     const controls = globeRef.current.controls();
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.25;
+    controls.autoRotate = false;
     controls.enablePan = false;
 
     globeRef.current.pointOfView({ lat: 20, lng: 15, altitude: 2.2 }, 0);
   }, [countries]);
 
+  function normalizeCountryName(name) {
+    const map = {
+      Macedonia: "North Macedonia",
+      "Republic of Macedonia": "North Macedonia",
+      "Russian Federation": "Russia",
+      "United States of America": "United States",
+      "Syrian Arab Republic": "Syria"
+    };
+
+    return map[name] || name;
+  }
+
   function getCountryName(feature) {
-    return feature?.properties?.name || "Unknown";
+    const rawName = feature?.properties?.name || "Unknown";
+    return normalizeCountryName(rawName);
   }
 
   async function handleCountryClick(feature) {
@@ -152,7 +164,7 @@ export default function GlobeView() {
           polygonAltitude={(d) => (d === hoverD ? 0.03 : 0.01)}
           polygonsTransitionDuration={200}
           polygonLabel={(d) =>
-            `<div style="padding:6px 8px;color:white;background:rgba(10,20,40,0.92);border-radius:8px;font-size:12px;">${
+            `<div style="padding:8px 10px;color:white;background:rgba(10,20,40,0.92);border-radius:8px;font-size:13px;">${
               d?.properties?.name || "Unknown"
             }</div>`
           }
