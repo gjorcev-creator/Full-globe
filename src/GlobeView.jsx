@@ -1,82 +1,78 @@
 import { useEffect, useRef, useState } from "react";
 import Globe from "react-globe.gl";
 
-function CountrySheet({ selectedCountry, countryData, loading, onClose }) {
+function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
   if (!selectedCountry) return null;
 
   return (
-    <div className="sheet-overlay" onClick={onClose}>
-      <div className="sheet" onClick={(e) => e.stopPropagation()}>
-        <div className="sheet-handle" />
-
-        <div className="sheet-header">
-          <div className="sheet-title-wrap">
-            <div className="sheet-kicker">Country profile</div>
-            <h2>{selectedCountry}</h2>
-          </div>
-
-          <button className="close-btn" onClick={onClose}>
-            X
-          </button>
+    <div className="panel">
+      <div className="panel-header">
+        <div className="panel-title-wrap">
+          <div className="panel-kicker">Country profile</div>
+          <h2>{selectedCountry}</h2>
         </div>
 
-        {loading ? (
-          <p className="loading-text">Loading country brief...</p>
-        ) : (
-          <>
-            <div className="section">
-              <h3>General Overview</h3>
-              <p>
-                {countryData?.general ||
-                  "No general overview is available yet for this country."}
-              </p>
-            </div>
-
-            <div className="section">
-              <h3>Relations with the European Union</h3>
-              <p>
-                {countryData?.eu ||
-                  "No structured EU assessment is available yet."}
-              </p>
-            </div>
-
-            <div className="section">
-              <h3>Relations with the United States</h3>
-              <p>
-                {countryData?.usa ||
-                  "No structured U.S. assessment is available yet."}
-              </p>
-            </div>
-
-            <div className="section">
-              <h3>Relations with Macedonia</h3>
-              <p>
-                {countryData?.mk ||
-                  "No structured Macedonia assessment is available yet."}
-              </p>
-            </div>
-
-            <div className="section">
-              <h3>Top Headlines</h3>
-              <ul className="news-list">
-                {(countryData?.news || []).map((item, idx) => (
-                  <li key={idx}>{item.title}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="section">
-              <h3>Потсетник</h3>
-              <p>{countryData?.reminder || "Reserved for manual input."}</p>
-            </div>
-
-            <div className="section">
-              <h3>Talking Points</h3>
-              <p>{countryData?.talkingPoints || "Reserved for manual input."}</p>
-            </div>
-          </>
-        )}
+        <button className="close-btn" onClick={onClose}>
+          X
+        </button>
       </div>
+
+      {loading ? (
+        <p className="loading-text">Loading country brief...</p>
+      ) : (
+        <>
+          <div className="section">
+            <h3>General Overview</h3>
+            <p>
+              {countryData?.general ||
+                "No general overview is available yet for this country."}
+            </p>
+          </div>
+
+          <div className="section">
+            <h3>Relations with the European Union</h3>
+            <p>
+              {countryData?.eu ||
+                "No structured EU assessment is available yet."}
+            </p>
+          </div>
+
+          <div className="section">
+            <h3>Relations with the United States</h3>
+            <p>
+              {countryData?.usa ||
+                "No structured U.S. assessment is available yet."}
+            </p>
+          </div>
+
+          <div className="section">
+            <h3>Relations with Macedonia</h3>
+            <p>
+              {countryData?.mk ||
+                "No structured Macedonia assessment is available yet."}
+            </p>
+          </div>
+
+          <div className="section">
+            <h3>Top Headlines</h3>
+            <ul className="news-list">
+              {(countryData?.news || []).map((item, idx) => (
+                <li key={idx}>{item.title}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="section">
+            <h3>Потсетник</h3>
+            <p>{countryData?.reminder || "Reserved for manual input."}</p>
+          </div>
+
+          <div className="section">
+            <h3>Talking Points</h3>
+            <p>{countryData?.talkingPoints || "Reserved for manual input."}</p>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -143,7 +139,8 @@ export default function GlobeView() {
   }
 
   function getCountryName(feature) {
-    const rawName = feature && feature.properties ? feature.properties.name : "Unknown";
+    const rawName =
+      feature && feature.properties ? feature.properties.name : "Unknown";
     return normalizeCountryName(rawName);
   }
 
@@ -210,7 +207,7 @@ export default function GlobeView() {
         />
       </div>
 
-      <CountrySheet
+      <CountryDrawer
         selectedCountry={selectedCountry}
         countryData={countryData}
         loading={loading}
