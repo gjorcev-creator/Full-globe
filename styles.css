@@ -6,10 +6,6 @@ html, body, #root {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 .panel {
   position: fixed;
   top: 0;
@@ -19,129 +15,71 @@ html, body, #root {
   overflow-y: auto;
   background: rgba(10, 16, 30, 0.96);
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   color: #f2f5fb;
-  padding: 32px 28px 40px 28px;
+  padding: 40px 34px;
   z-index: 9999;
-  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
-  border-left: 1px solid rgba(110, 30, 45, 0.35);
+  box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+  border-left: 1px solid rgba(120,0,30,0.4);
 }
 
 .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
 }
 
 .panel-kicker {
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.18em;
   color: #b98b94;
-  margin-bottom: 6px;
-  font-weight: 700;
+  margin-bottom: 8px;
+  font-weight: 800;
 }
 
 .panel h2 {
   margin: 0;
-  font-size: 38px;
-  line-height: 1.05;
-  color: #ffffff;
-  font-weight: 800;
+  font-size: 44px; /* ⬅️ ПОГОЛЕМ НАСЛОВ */
+  font-weight: 900;
 }
 
 .close-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(185, 139, 148, 0.25);
-  color: #ffffff;
-  width: 46px;
-  height: 46px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  width: 52px;
+  height: 52px;
   border-radius: 12px;
-  font-size: 20px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.loading-text {
-  margin-top: 12px;
-  font-size: 20px;
-  line-height: 1.6;
-  color: #e8edf7;
+  font-size: 22px;
 }
 
 .section {
-  margin-top: 26px;
+  margin-top: 30px;
 }
 
 .section h3 {
-  margin: 0 0 10px 0;
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 15px;
+  letter-spacing: 0.14em;
   color: #b98b94;
-  font-weight: 800;
+  margin-bottom: 10px;
 }
 
 .section p {
-  margin: 0;
-  font-size: 20px;
-  line-height: 1.75;
-  color: #eef2f8;
-}
-
-.section ul {
-  margin: 0;
-  padding-left: 22px;
+  font-size: 24px; /* ⬅️ ГОЛЕМ ТЕКСТ */
+  line-height: 1.85;
 }
 
 .section li {
-  margin-bottom: 12px;
-  font-size: 18px;
-  line-height: 1.6;
-  color: #eef2f8;
+  font-size: 22px;
+  margin-bottom: 10px;
 }
 
-.panel::-webkit-scrollbar {
-  width: 8px;
-}
-
-.panel::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.panel::-webkit-scrollbar-thumb {
-  background: rgba(185, 139, 148, 0.28);
-  border-radius: 999px;
-}
-
-@media (max-width: 900px) {
-  .panel {
-    width: 60vw;
-  }
+.loading-text {
+  font-size: 22px;
 }
 
 @media (max-width: 700px) {
   .panel {
     width: 100vw;
-    padding: 24px 20px 32px 20px;
-  }
-
-  .panel h2 {
-    font-size: 32px;
-  }
-
-  .section p {
-    font-size: 18px;
-    line-height: 1.68;
-  }
-
-  .section li {
-    font-size: 17px;
-  }
-
-  .loading-text {
-    font-size: 18px;
   }
 }
