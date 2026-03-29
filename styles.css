@@ -28,33 +28,33 @@ html, body, #root {
   position: absolute;
   inset: 0;
   z-index: 30;
-  background: linear-gradient(
-    to top,
-    rgba(22, 26, 34, 0.28) 0%,
-    rgba(22, 26, 34, 0.16) 35%,
-    rgba(22, 26, 34, 0.06) 100%
-  );
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  background: linear-gradient(
+    to top,
+    rgba(60, 60, 60, 0.22) 0%,
+    rgba(90, 90, 90, 0.12) 40%,
+    rgba(120, 120, 120, 0.04) 100%
+  );
 }
 
 .sheet {
-  width: min(900px, 100vw);
-  max-height: 85vh;
+  width: 100vw;
+  max-height: 84vh;
   overflow-y: auto;
-  border-top-left-radius: 26px;
-  border-top-right-radius: 26px;
-  padding: 18px 22px 34px 22px;
+  padding: 16px 18px 30px 18px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
   background: linear-gradient(
     180deg,
-    rgba(125, 125, 125, 0.34) 0%,
-    rgba(92, 92, 92, 0.24) 35%,
-    rgba(52, 52, 52, 0.42) 100%
+    rgba(170, 170, 170, 0.22) 0%,
+    rgba(105, 105, 105, 0.20) 42%,
+    rgba(55, 55, 55, 0.34) 100%
   );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-top: 1px solid rgba(255, 255, 255, 0.20);
   box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.35);
   color: #f4f7ff;
 }
@@ -63,7 +63,7 @@ html, body, #root {
   width: 64px;
   height: 6px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.36);
   margin: 0 auto 14px auto;
 }
 
@@ -72,7 +72,7 @@ html, body, #root {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .sheet-title-wrap {
@@ -82,16 +82,16 @@ html, body, #root {
 }
 
 .sheet-kicker {
-  font-size: 13px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #d5e5ff;
+  color: #dbe7ff;
   font-weight: 800;
 }
 
 .sheet h2 {
   margin: 0;
-  font-size: 34px;
+  font-size: 30px;
   line-height: 1.08;
   font-weight: 800;
   color: #ffffff;
@@ -101,8 +101,8 @@ html, body, #root {
   border: none;
   background: rgba(255, 255, 255, 0.14);
   color: white;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 14px;
   font-size: 18px;
   font-weight: 700;
@@ -111,18 +111,18 @@ html, body, #root {
 
 .loading-text {
   margin: 0;
-  font-size: 22px;
+  font-size: 18px;
   line-height: 1.6;
 }
 
 .section {
-  margin-top: 22px;
+  margin-top: 20px;
 }
 
 .section h3 {
   margin: 0 0 10px 0;
-  font-size: 14px;
-  color: #d5e5ff;
+  font-size: 13px;
+  color: #dbe7ff;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 800;
@@ -130,27 +130,21 @@ html, body, #root {
 
 .section p {
   margin: 0;
-  line-height: 1.76;
-  font-size: 20px;
+  line-height: 1.72;
+  font-size: 17px;
   color: #f4f7ff;
 }
 
 .news-list {
   margin: 0;
-  padding-left: 24px;
+  padding-left: 22px;
 }
 
 .news-list li {
-  margin-bottom: 14px;
-  font-size: 19px;
+  margin-bottom: 12px;
+  font-size: 17px;
   line-height: 1.62;
   color: #f4f7ff;
-}
-
-.news-source {
-  margin-top: 4px;
-  font-size: 14px;
-  color: rgba(230, 238, 255, 0.78);
 }
 
 .sheet::-webkit-scrollbar {
@@ -160,33 +154,4 @@ html, body, #root {
 .sheet::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.24);
   border-radius: 10px;
-}
-
-@media (max-width: 700px) {
-  .sheet {
-    width: 100vw;
-    max-height: 88vh;
-    padding: 16px 18px 30px 18px;
-    border-top-left-radius: 22px;
-    border-top-right-radius: 22px;
-  }
-
-  .sheet h2 {
-    font-size: 30px;
-  }
-
-  .section p {
-    font-size: 18px;
-    line-height: 1.72;
-  }
-
-  .news-list li,
-  .loading-text {
-    font-size: 18px;
-  }
-
-  .close-btn {
-    width: 44px;
-    height: 44px;
-  }
 }
