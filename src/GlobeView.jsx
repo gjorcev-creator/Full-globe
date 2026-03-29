@@ -49,16 +49,6 @@ function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
               ))}
             </ul>
           </div>
-
-          <div className="section">
-            <h3>Потсетник</h3>
-            <p>{countryData?.reminder || "-"}</p>
-          </div>
-
-          <div className="section">
-            <h3>Talking Points</h3>
-            <p>{countryData?.talkingPoints || "-"}</p>
-          </div>
         </>
       )}
     </div>
@@ -70,8 +60,8 @@ export default function GlobeView() {
 
   const [countries, setCountries] = useState([]);
   const [hoverD, setHoverD] = useState(null);
-
   const [selectedCountry, setSelectedCountry] = useState(null);
+
   const [countryData, setCountryData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -85,8 +75,7 @@ export default function GlobeView() {
 
   useEffect(() => {
     if (!globeRef.current) return;
-    const c = globeRef.current.controls();
-    c.autoRotate = false;
+    globeRef.current.controls().autoRotate = false;
   }, []);
 
   function normalize(name) {
@@ -123,15 +112,34 @@ export default function GlobeView() {
         width={window.innerWidth}
         height={window.innerHeight}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+
         polygonsData={countries}
+
+        /* ❌ ТРГНАТИ ЖОЛТИ ЛИНИИ */
+        polygonStrokeColor={() => "rgba(0,0,0,0)"}
+
+        /* 🎯 HOVER */
         polygonCapColor={(d) =>
-          d === hoverD
-            ? "rgba(110,168,255,0.7)"
-            : "rgba(80,140,255,0.2)"
+          d === hoverD ? "rgba(120,160,255,0.4)" : "rgba(80,140,255,0.12)"
         }
-        polygonStrokeColor={() => "#ffffff"}
+
+        /* 🎯 SELECTED → BORDEAU HOLLOW */
+        polygonSideColor={(d) =>
+          d === selectedCountryFeature
+            ? "rgba(120,0,30,0.9)"
+            : "rgba(0,0,0,0)"
+        }
+
+        polygonAltitude={(d) =>
+          d === hoverD ? 0.02 : 0.005
+        }
+
         onPolygonHover={(d) => setHoverD(d || null)}
-        onPolygonClick={handleClick}
+
+        onPolygonClick={(d) => {
+          handleClick(d);
+          selectedCountryFeature = d;
+        }}
       />
 
       <CountryDrawer
