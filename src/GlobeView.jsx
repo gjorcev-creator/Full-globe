@@ -1,6 +1,55 @@
 import { useEffect, useRef, useState } from "react";
 import Globe from "react-globe.gl";
-import CountryDrawer from "./CountryDrawer";
+
+function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
+  if (!selectedCountry) return null;
+
+  return (
+    <div className="panel">
+      <div className="panel-header">
+        <h2>{selectedCountry}</h2>
+        <button className="close-btn" onClick={onClose}>
+          X
+        </button>
+      </div>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <div className="section">
+            <h3>General</h3>
+            <p>{countryData?.general || "No data available."}</p>
+          </div>
+
+          <div className="section">
+            <h3>EU</h3>
+            <p>{countryData?.eu || "Unavailable"}</p>
+          </div>
+
+          <div className="section">
+            <h3>USA</h3>
+            <p>{countryData?.usa || "Unavailable"}</p>
+          </div>
+
+          <div className="section">
+            <h3>North Macedonia</h3>
+            <p>{countryData?.mk || "Unavailable"}</p>
+          </div>
+
+          <div className="section">
+            <h3>Top news</h3>
+            <ul className="news-list">
+              {(countryData?.news || []).map((item, idx) => (
+                <li key={idx}>{item.title}</li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 export default function GlobeView() {
   const globeRef = useRef(null);
@@ -48,15 +97,11 @@ export default function GlobeView() {
     controls.autoRotateSpeed = 0.25;
     controls.enablePan = false;
 
-    globeRef.current.pointOfView(
-      { lat: 20, lng: 15, altitude: 2.2 },
-      0
-    );
+    globeRef.current.pointOfView({ lat: 20, lng: 15, altitude: 2.2 }, 0);
   }, [countries]);
 
   function getCountryName(feature) {
-    if (!feature || !feature.properties) return "Unknown";
-    return feature.properties.name || "Unknown";
+    return feature?.properties?.name || "Unknown";
   }
 
   async function handleCountryClick(feature) {
@@ -100,27 +145,19 @@ export default function GlobeView() {
           atmosphereAltitude={0.22}
           polygonsData={countries}
           polygonCapColor={(d) =>
-            d === hoverD
-              ? "rgba(110,168,255,0.65)"
-              : "rgba(80,140,255,0.18)"
+            d === hoverD ? "rgba(110,168,255,0.65)" : "rgba(80,140,255,0.18)"
           }
           polygonSideColor={() => "rgba(0,60,140,0.15)"}
           polygonStrokeColor={() => "rgba(220,235,255,0.95)"}
           polygonAltitude={(d) => (d === hoverD ? 0.03 : 0.01)}
           polygonsTransitionDuration={200}
-          polygonLabel={(d) => {
-            const name =
-              d && d.properties && d.properties.name
-                ? d.properties.name
-                : "Unknown";
-            return `<div style="padding:6px 8px;color:white;background:rgba(10,20,40,0.92);border-radius:8px;font-size:12px;">${name}</div>`;
-          }}
-          onPolygonHover={(polygon) => {
-            setHoverD(polygon || null);
-          }}
-          onPolygonClick={(polygon) => {
-            handleCountryClick(polygon);
-          }}
+          polygonLabel={(d) =>
+            `<div style="padding:6px 8px;color:white;background:rgba(10,20,40,0.92);border-radius:8px;font-size:12px;">${
+              d?.properties?.name || "Unknown"
+            }</div>`
+          }
+          onPolygonHover={(polygon) => setHoverD(polygon || null)}
+          onPolygonClick={(polygon) => handleCountryClick(polygon)}
         />
       </div>
 
