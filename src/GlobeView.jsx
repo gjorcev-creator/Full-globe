@@ -120,28 +120,28 @@ export default function GlobeView() {
         width={window.innerWidth}
         height={window.innerHeight}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-
         polygonsData={countries}
 
-        /* ✅ ГРАНИЦИ */
-        polygonStrokeColor={() => "rgba(255,255,255,0.25)"}
+        /* 🔥 ПОЈАКИ ГРАНИЦИ */
+        polygonStrokeColor={() => "rgba(255,255,255,0.75)"}
+        polygonStrokeWidth={0.6}
 
         /* 🎯 COLOR LOGIC */
         polygonCapColor={(d) => {
           if (d === selectedCountryFeature) return "rgba(0,0,0,0)";
-          if (d === hoverD) return "rgba(120, 0, 30, 0.35)"; // бордо hover
+          if (d === hoverD) return "rgba(120, 0, 30, 0.35)";
           return "rgba(80,140,255,0.08)";
         }}
 
-        /* 🎯 BORDEAU OUTLINE WHEN SELECTED */
+        /* 🎯 SELECTED */
         polygonSideColor={(d) =>
           d === selectedCountryFeature
-            ? "rgba(120, 0, 30, 0.95)"
+            ? "rgba(120, 0, 30, 1)"
             : "rgba(0,0,0,0)"
         }
 
         polygonAltitude={(d) => {
-          if (d === selectedCountryFeature) return 0.03;
+          if (d === selectedCountryFeature) return 0.035;
           if (d === hoverD) return 0.02;
           return 0.004;
         }}
