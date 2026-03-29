@@ -26,19 +26,19 @@ html, body, #root {
 
 .panel {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: min(720px, calc(100vw - 24px));
-  max-height: calc(100vh - 24px);
+  top: 8px;
+  right: 8px;
+  width: min(900px, calc(100vw - 16px)); /* ⬅️ значително поголем */
+  max-height: calc(100vh - 16px);
   overflow-y: auto;
   background: rgba(10, 16, 28, 0.94);
   color: #eef4ff;
   border: 1px solid rgba(140, 170, 255, 0.24);
   border-radius: 22px;
-  padding: 28px 24px 34px 24px;
+  padding: 32px 28px 40px 28px; /* ⬅️ повеќе простор */
   backdrop-filter: blur(16px);
   z-index: 20;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.5);
 }
 
 .panel-title-wrap {
@@ -65,8 +65,8 @@ html, body, #root {
 
 .panel h2 {
   margin: 0;
-  font-size: 34px;
-  line-height: 1.08;
+  font-size: 38px; /* ⬅️ поголем наслов */
+  line-height: 1.05;
   font-weight: 800;
   color: #ffffff;
 }
@@ -104,8 +104,8 @@ html, body, #root {
 
 .section p {
   margin: 0;
-  line-height: 1.72;
-  font-size: 20px;
+  line-height: 1.8;
+  font-size: 22px; /* ⬅️ поголем текст */
   color: #eef4ff;
 }
 
