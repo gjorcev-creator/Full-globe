@@ -17,7 +17,7 @@ export default function GlobeView() {
   const [loading, setLoading] = useState(false);
 
   const API_BASE =
-    import.meta.env.VITE_API_BASE_URL || "https://globe-api-42cp.onrender.com";
+    const API_BASE = "https://globe-api-42cp.onrender.com";
 
   useEffect(() => {
     const onResize = () => {
