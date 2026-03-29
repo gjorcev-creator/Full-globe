@@ -7,43 +7,69 @@ function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
   return (
     <div className="panel">
       <div className="panel-header">
-        <h2>{selectedCountry}</h2>
+        <div className="panel-title-wrap">
+          <div className="panel-kicker">Country profile</div>
+          <h2>{selectedCountry}</h2>
+        </div>
         <button className="close-btn" onClick={onClose}>
           X
         </button>
       </div>
 
       {loading ? (
-        <p className="loading-text">Loading...</p>
+        <p className="loading-text">Loading country brief...</p>
       ) : (
         <>
           <div className="section">
-            <h3>General</h3>
-            <p>{countryData?.general || "No data available."}</p>
+            <h3>General Overview</h3>
+            <p>
+              {countryData?.general ||
+                "No general overview is available yet for this country. This section will contain a concise geopolitical and strategic summary, including the country’s regional role, institutional alignment, and major political dynamics."}
+            </p>
           </div>
 
           <div className="section">
-            <h3>EU</h3>
-            <p>{countryData?.eu || "Unavailable"}</p>
+            <h3>Relations with the European Union</h3>
+            <p>
+              {countryData?.eu ||
+                "No structured EU assessment is available yet. This section will summarize the country’s political relationship with the European Union, status in accession or partnership frameworks, trade and regulatory alignment, and current diplomatic sensitivities."}
+            </p>
           </div>
 
           <div className="section">
-            <h3>USA</h3>
-            <p>{countryData?.usa || "Unavailable"}</p>
+            <h3>Relations with the United States</h3>
+            <p>
+              {countryData?.usa ||
+                "No structured U.S. assessment is available yet. This section will summarize the bilateral strategic relationship, defense and security cooperation, diplomatic positioning, and recent shifts in the policy relationship with Washington."}
+            </p>
           </div>
 
           <div className="section">
-            <h3>North Macedonia</h3>
-            <p>{countryData?.mk || "Unavailable"}</p>
+            <h3>Relations with North Macedonia</h3>
+            <p>
+              {countryData?.mk ||
+                "No structured North Macedonia assessment is available yet. This section will summarize bilateral relations, political dialogue, regional cooperation, economic ties, and any active diplomatic issues relevant to Skopje."}
+            </p>
           </div>
 
           <div className="section">
-            <h3>Top news</h3>
+            <h3>Current Developments and Top News</h3>
             <ul className="news-list">
               {(countryData?.news || []).map((item, idx) => (
                 <li key={idx}>{item.title}</li>
               ))}
             </ul>
+          </div>
+
+          <div className="section">
+            <h3>Analytical Note</h3>
+            <p>
+              This panel is designed as the first layer of a broader geopolitical
+              intelligence tool. In the next iteration, this area can include AI
+              summaries, risk indicators, diplomatic timelines, and source-ranked
+              live news so that each country profile becomes a real operational
+              brief rather than a simple info card.
+            </p>
           </div>
         </>
       )}
@@ -132,11 +158,28 @@ export default function GlobeView() {
     } catch (err) {
       console.error("API fetch error:", err);
       setCountryData({
-        general: "No data available for " + countryName + ".",
-        eu: "Unavailable",
-        usa: "Unavailable",
-        mk: "Unavailable",
-        news: [{ title: "No news available." }]
+        general:
+          countryName +
+          " is displayed in the globe platform. A fuller strategic country brief will be shown here in the next iteration, including political context, regional significance, and current diplomatic posture.",
+        eu:
+          "No structured EU assessment yet for " +
+          countryName +
+          ". This space will later include a longer analytical summary covering political alignment, accession dynamics, sanctions posture, institutional cooperation, and diplomatic friction points where relevant.",
+        usa:
+          "No structured USA assessment yet for " +
+          countryName +
+          ". This section will later summarize bilateral ties, defense links, strategic partnership level, and the most relevant recent developments affecting the relationship with Washington.",
+        mk:
+          "No structured North Macedonia assessment yet for " +
+          countryName +
+          ". This section will later include a country-specific bilateral note covering political dialogue, regional cooperation, trade, and any issues of direct relevance for Macedonian foreign policy.",
+        news: [
+          { title: "Top headlines for " + countryName + " will appear here" },
+          { title: "Diplomatic update feed placeholder" },
+          { title: "Economic developments placeholder" },
+          { title: "Regional affairs placeholder" },
+          { title: "Security developments placeholder" }
+        ]
       });
     } finally {
       setLoading(false);
