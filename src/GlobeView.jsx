@@ -49,6 +49,16 @@ function CountryDrawer({ selectedCountry, countryData, loading, onClose }) {
               ))}
             </ul>
           </div>
+
+          <div className="section">
+            <h3>Потсетник</h3>
+            <p>{countryData?.reminder || "-"}</p>
+          </div>
+
+          <div className="section">
+            <h3>Talking Points</h3>
+            <p>{countryData?.talkingPoints || "-"}</p>
+          </div>
         </>
       )}
     </div>
@@ -61,7 +71,7 @@ export default function GlobeView() {
   const [countries, setCountries] = useState([]);
   const [hoverD, setHoverD] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
-
+  const [selectedCountryFeature, setSelectedCountryFeature] = useState(null);
   const [countryData, setCountryData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -75,7 +85,8 @@ export default function GlobeView() {
 
   useEffect(() => {
     if (!globeRef.current) return;
-    globeRef.current.controls().autoRotate = false;
+    const controls = globeRef.current.controls();
+    controls.autoRotate = false;
   }, []);
 
   function normalize(name) {
@@ -83,14 +94,15 @@ export default function GlobeView() {
     return name;
   }
 
-  function getName(f) {
-    return normalize(f?.properties?.name || "Unknown");
+  function getName(feature) {
+    return normalize(feature?.properties?.name || "Unknown");
   }
 
-  async function handleClick(f) {
-    const name = getName(f);
+  async function handleClick(feature) {
+    const name = getName(feature);
 
     setSelectedCountry(name);
+    setSelectedCountryFeature(feature);
     setLoading(true);
     setCountryData(null);
 
@@ -105,6 +117,12 @@ export default function GlobeView() {
     }
   }
 
+  function handleClose() {
+    setSelectedCountry(null);
+    setSelectedCountryFeature(null);
+    setCountryData(null);
+  }
+
   return (
     <>
       <Globe
@@ -112,41 +130,32 @@ export default function GlobeView() {
         width={window.innerWidth}
         height={window.innerHeight}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-
         polygonsData={countries}
-
-        /* ❌ ТРГНАТИ ЖОЛТИ ЛИНИИ */
         polygonStrokeColor={() => "rgba(0,0,0,0)"}
-
-        /* 🎯 HOVER */
-        polygonCapColor={(d) =>
-          d === hoverD ? "rgba(120,160,255,0.4)" : "rgba(80,140,255,0.12)"
-        }
-
-        /* 🎯 SELECTED → BORDEAU HOLLOW */
+        polygonCapColor={(d) => {
+          if (d === selectedCountryFeature) return "rgba(0,0,0,0)";
+          if (d === hoverD) return "rgba(120,160,255,0.35)";
+          return "rgba(80,140,255,0.10)";
+        }}
         polygonSideColor={(d) =>
           d === selectedCountryFeature
-            ? "rgba(120,0,30,0.9)"
+            ? "rgba(120, 0, 30, 0.95)"
             : "rgba(0,0,0,0)"
         }
-
-        polygonAltitude={(d) =>
-          d === hoverD ? 0.02 : 0.005
-        }
-
-        onPolygonHover={(d) => setHoverD(d || null)}
-
-        onPolygonClick={(d) => {
-          handleClick(d);
-          selectedCountryFeature = d;
+        polygonAltitude={(d) => {
+          if (d === selectedCountryFeature) return 0.028;
+          if (d === hoverD) return 0.018;
+          return 0.004;
         }}
+        onPolygonHover={(d) => setHoverD(d || null)}
+        onPolygonClick={handleClick}
       />
 
       <CountryDrawer
         selectedCountry={selectedCountry}
         countryData={countryData}
         loading={loading}
-        onClose={() => setSelectedCountry(null)}
+        onClose={handleClose}
       />
     </>
   );
