@@ -3,76 +3,145 @@ html, body, #root {
   height: 100%;
   overflow: hidden;
   background: #050b18;
-  font-family: -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .panel {
   position: fixed;
   top: 0;
   right: 0;
-  width: 50vw; /* ⬅️ половина екран */
+  width: 50vw;
   height: 100vh;
-
+  overflow-y: auto;
   background: rgba(10, 16, 30, 0.96);
   backdrop-filter: blur(16px);
-
-  color: white;
-  padding: 30px;
-
-  overflow-y: auto;
+  -webkit-backdrop-filter: blur(16px);
+  color: #f2f5fb;
+  padding: 32px 28px 40px 28px;
   z-index: 9999;
-
-  box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+  border-left: 1px solid rgba(110, 30, 45, 0.35);
 }
 
 .panel-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-
-.panel h2 {
-  margin: 0;
-  font-size: 36px;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .panel-kicker {
   font-size: 12px;
-  color: #8db7ff;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b98b94;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: 38px;
+  line-height: 1.05;
+  color: #ffffff;
+  font-weight: 800;
 }
 
 .close-btn {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-.section {
-  margin-top: 20px;
-}
-
-.section h3 {
-  font-size: 14px;
-  color: #8db7ff;
-}
-
-.section p {
-  font-size: 18px;
-  line-height: 1.6;
-}
-
-.section li {
-  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(185, 139, 148, 0.25);
+  color: #ffffff;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .loading-text {
-  margin-top: 20px;
+  margin-top: 12px;
+  font-size: 20px;
+  line-height: 1.6;
+  color: #e8edf7;
+}
+
+.section {
+  margin-top: 26px;
+}
+
+.section h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b98b94;
+  font-weight: 800;
+}
+
+.section p {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.75;
+  color: #eef2f8;
+}
+
+.section ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.section li {
+  margin-bottom: 12px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #eef2f8;
+}
+
+.panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.panel::-webkit-scrollbar-thumb {
+  background: rgba(185, 139, 148, 0.28);
+  border-radius: 999px;
+}
+
+@media (max-width: 900px) {
+  .panel {
+    width: 60vw;
+  }
 }
 
 @media (max-width: 700px) {
   .panel {
     width: 100vw;
+    padding: 24px 20px 32px 20px;
+  }
+
+  .panel h2 {
+    font-size: 32px;
+  }
+
+  .section p {
+    font-size: 18px;
+    line-height: 1.68;
+  }
+
+  .section li {
+    font-size: 17px;
+  }
+
+  .loading-text {
+    font-size: 18px;
   }
 }
